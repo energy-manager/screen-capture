@@ -12,7 +12,7 @@
 
 <script>
   import  myMixin  from './mixin.js';
-  import Modal from './Modal';
+  import Modal from './Modal.vue';
   export default {
     data() {
       return {
