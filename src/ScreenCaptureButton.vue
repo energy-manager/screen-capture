@@ -6,13 +6,13 @@
       <h1>Print me!</h1>
     </div>
     <!-- OUTPUT -->
-    <modal v-if="showModal" @close="showModal = false" @submited="submit" />
+    <screen-capture-modal v-if="showModal" @close="showModal = false" @submited="submit" />
   </div>
 </template>
 
 <script>
-  import  myMixin  from './mixin.js';
-  import Modal from './Modal.vue';
+  import canvasScreenshot  from './canvasScreenshot.js';
+  import ScreenCaptureModal from './ScreenCaptureModal.vue';
   export default {
     data() {
       return {
@@ -21,9 +21,9 @@
         showModal: false
       }
     },
-    mixins: [myMixin],
+    mixins: [canvasScreenshot],
     components: {
-      Modal
+      ScreenCaptureModal
     },
     methods: {
       async takeScreenshot() {
