@@ -23,8 +23,9 @@
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-vue": "^6.0.0-beta.11",
     "vue-template-compiler": "^2.6.12",
-    "html2canvas": "^1.0.0-rc.7",
-    "sass-loader": "^10.1.0",
-    "vue-html2canvas": "0.0.4"
+    "sass-loader": "^10.1.0"
+  },
+  "dependencies": {
+    "html2canvas": "^1.0.0-rc.7"
   }
 }
