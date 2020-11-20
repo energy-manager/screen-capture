@@ -1,5 +1,5 @@
 /*!
- * screen-capture v0.0.1
+ * energy-manager-screen-capture v0.0.3
  * (c) energy-manager
  * Released under the MIT License.
  */
@@ -24,7 +24,7 @@ function _await(value, then, direct) {
   return then ? value.then(then) : value;
 }
 
-var myMixin = {
+var canvasScreenshot = {
   methods: {
     $html2canvas: function $html2canvas(el) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -221,9 +221,9 @@ var script$1 = {
       showModal: false
     };
   },
-  mixins: [myMixin],
+  mixins: [canvasScreenshot],
   components: {
-    Modal: script
+    ScreenCaptureModal: script
   },
   methods: {
     takeScreenshot: function takeScreenshot() {
@@ -264,7 +264,7 @@ var _hoisted_2$1 = /*#__PURE__*/vue.createVNode("h1", null, "Print me!", -1
 );
 
 function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_modal = vue.resolveComponent("modal");
+  var _component_screen_capture_modal = vue.resolveComponent("screen-capture-modal");
 
   return vue.openBlock(), vue.createBlock("div", null, [vue.createVNode("button", {
     onClick: _cache[1] || (_cache[1] = function () {
@@ -272,7 +272,7 @@ function render$1(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, "Click"), vue.createCommentVNode(" SOURCE "), vue.createVNode("div", _hoisted_1$1, [_hoisted_2$1], 512
   /* NEED_PATCH */
-  ), vue.createCommentVNode(" OUTPUT "), $data.showModal ? (vue.openBlock(), vue.createBlock(_component_modal, {
+  ), vue.createCommentVNode(" OUTPUT "), $data.showModal ? (vue.openBlock(), vue.createBlock(_component_screen_capture_modal, {
     key: 0,
     onClose: _cache[2] || (_cache[2] = function ($event) {
       return $data.showModal = false;
@@ -289,7 +289,7 @@ var index = {
   install: function install(Vue) {
     // Let's register our component globally
     // https://vuejs.org/v2/guide/components-registration.html
-    Vue.component("button", script$1);
+    Vue.component("screen-capture-button", script$1);
   }
 };
 
