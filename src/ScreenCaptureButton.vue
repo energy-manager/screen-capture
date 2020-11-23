@@ -17,7 +17,6 @@
     data() {
       return {
         output: null,
-        title: null,
         showModal: false
       }
     },
@@ -28,9 +27,7 @@
     methods: {
       async takeScreenshot() {
         const el = this.$refs.printMe;
-        // add option type to get the image version
-        // if not provided the promise will return
-        // the canvas.
+
         const options = {
           type: 'dataURL'
         }
@@ -39,10 +36,8 @@
         this.showModal = true
       },
       submit(data) {
-        console.log(data)
         this.showModal = false;
         data['screenshot'] = this.output
-        console.log(data);
 
         this.$emit('submit', data)
       }

@@ -1,12 +1,14 @@
 {
   "private": false,
   "name": "energy-manager-screen-capture",
-  "version": "0.0.4",
+  "version": "0.0.13",
   "description": "Screen capture tool",
   "main": "./dist/index.js",
   "scripts": {
-    "dev": "vue serve Button.vue",
-    "build": "bili --input index --plugin vue --vue.css false"
+    "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
+    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/screen-capture-button.umd.js",
+    "build:es": "rollup --config build/rollup.config.js --format es --file dist/screen-capture-button.esm.js",
+    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/screen-capture-button.min.js"
   },
   "author": "energy-manager",
   "license": "MIT",
@@ -14,16 +16,12 @@
     "dist/*"
   ],
   "devDependencies": {
+    "rollup": "^1.17.0",
     "@rollup/plugin-buble": "^0.21.3",
-    "@rollup/plugin-commonjs": "^16.0.0",
-    "@vue/compiler-sfc": "^3.0.2",
-    "bili": "^5.0.5",
-    "node-sass": "^5.0.0",
-    "rollup-plugin-css-only": "^2.1.0",
-    "rollup-plugin-postcss": "^3.1.8",
-    "rollup-plugin-vue": "^6.0.0-beta.11",
-    "vue-template-compiler": "^2.6.12",
-    "sass-loader": "^10.1.0"
+    "@rollup/plugin-commonjs": "^11.1.0",
+    "rollup-plugin-vue": "^5.0.1",
+    "vue": "^2.6.10",
+    "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
     "html2canvas": "^1.0.0-rc.7"
