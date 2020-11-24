@@ -1,11 +1,6 @@
 <template>
   <div>
     <button @click="takeScreenshot">Click</button>
-    <!-- SOURCE -->
-    <div ref="printMe">
-      <h1>Print me!</h1>
-    </div>
-    <!-- OUTPUT -->
     <screen-capture-modal v-if="showModal" @close="showModal = false" @submited="submit" />
   </div>
 </template>
@@ -14,6 +9,9 @@
   import canvasScreenshot  from './canvasScreenshot.js';
   import ScreenCaptureModal from './ScreenCaptureModal.vue';
   export default {
+    props: {
+      elementRef: String
+    },
     data() {
       return {
         output: null,
@@ -26,7 +24,7 @@
     },
     methods: {
       async takeScreenshot() {
-        const el = this.$refs.printMe;
+        const el = this.$parent.$refs[this.elementRef];
 
         const options = {
           type: 'dataURL'
