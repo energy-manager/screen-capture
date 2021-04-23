@@ -1,4 +1,9 @@
 import html2canvas from 'html2canvas';
+import VueFroala from 'vue-froala-wysiwyg';
+import Vue from 'vue';
+import i18next from 'i18next';
+import Locize from 'i18next-locize-backend';
+import VueI18Next from '@panter/vue-i18next';
 
 var canvasScreenshot = {
     methods: {
@@ -15,54 +20,42 @@ var canvasScreenshot = {
     }
 };
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+Vue.use(VueI18Next);
+
+const i18nextOptions = {
+	backend: {
+		projectId: '2c0a136a-e84b-4380-bbdd-8c7e033c41a3',
+		apiKey: '5e9e1de2-bf79-4fbd-a74e-05772a0a1d12',
+		referenceLng: 'en-US'
+	},
+	lng: 'en-US',
+	fallbackLng: 'en-US',
+	ns: [
+		'common',
+    'backlog',
+
+	],
+	defaultNS: 'common',
+	saveMissing: true,
+
+	missingKeyHandler: (lng, ns, key, fallbackValue) => {
+		// eslint-disable-next-line
+		// console.error('Missing key in translations', lng, ns, key, fallbackValue);
+	},
+};
+
+i18next
+	.use(Locize)
+	.init(i18nextOptions, error => {
+    if (error) {
+      // eslint-disable-next-line
+      // console.error('Error loading i18next', error);
+      throw error;
+    }
+  });
+
+new VueI18Next(i18next);
+
 //
 
 var script = {
@@ -72,7 +65,12 @@ var script = {
         title: null,
         description: null,
         private: false,
-        type: 'bug'
+        type: 1, 
+        backlogTypes: [],
+        config: {
+         placeholderText: 'Edit Your Content Here!',
+        charCounterCount: false
+}
       }
     }
   },
@@ -86,6 +84,10 @@ var script = {
       };
       this.$emit('submited', data);
     }
+  },
+
+  components: {
+    VueFroala,
   }
 };
 
@@ -230,7 +232,11 @@ var __vue_render__ = function() {
       _c("div", { staticClass: "modal-container" }, [
         _c("div", { staticClass: "modal-header" }, [
           _c("h3", [
-            _vm._v("\n            Please enter screen comment\n          ")
+            _vm._v(
+              "\n            " +
+                _vm._s(_vm.$t("backlog: addBacklogItem")) +
+                "\n          "
+            )
           ]),
           _vm._v(" "),
           _c(
@@ -260,7 +266,9 @@ var __vue_render__ = function() {
             },
             [
               _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "title" } }, [_vm._v("Title")]),
+                _c("label", { attrs: { for: "title" } }, [
+                  _vm._v(_vm._s(_vm.$t("common: title")))
+                ]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -285,36 +293,36 @@ var __vue_render__ = function() {
                 })
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "description" } }, [
-                  _vm._v("Description")
-                ]),
-                _vm._v(" "),
-                _c("textarea", {
-                  directives: [
+              _c(
+                "div",
+                { staticClass: "form-group" },
+                [
+                  _c("label", { attrs: { for: "description" } }, [
+                    _vm._v(_vm._s(_vm.$t("common: description")))
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "froala",
                     {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.description,
-                      expression: "form.description"
-                    }
-                  ],
-                  staticClass: "textarea input",
-                  attrs: { id: "description", placeholder: "Description" },
-                  domProps: { value: _vm.form.description },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                      attrs: { tag: "textarea", config: _vm.config },
+                      model: {
+                        value: _vm.form.description,
+                        callback: function($$v) {
+                          _vm.$set(_vm.form, "description", $$v);
+                        },
+                        expression: "form.description"
                       }
-                      _vm.$set(_vm.form, "description", $event.target.value);
-                    }
-                  }
-                })
-              ]),
+                    },
+                    [_vm._v("Init text")]
+                  )
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("div", { staticClass: "form-group checkbox-input" }, [
-                _c("label", { attrs: { for: "private" } }, [_vm._v("Private")]),
+                _c("label", { attrs: { for: "private" } }, [
+                  _vm._v(_vm._s(_vm.$t("backlog: isPublic")))
+                ]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -359,53 +367,9 @@ var __vue_render__ = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
-                _c("label", [_vm._v("Type")]),
+                _c("label", [_vm._v(_vm._s(_vm.$t("common: type")))]),
                 _vm._v(" "),
-                _c("div", { staticClass: "radio-input" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.type,
-                        expression: "form.type"
-                      }
-                    ],
-                    attrs: { type: "radio", id: "bug", value: "bug" },
-                    domProps: { checked: _vm._q(_vm.form.type, "bug") },
-                    on: {
-                      change: function($event) {
-                        return _vm.$set(_vm.form, "type", "bug")
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "bug" } }, [_vm._v("Bug")])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "radio-input" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.type,
-                        expression: "form.type"
-                      }
-                    ],
-                    attrs: { type: "radio", id: "feature", value: "feature" },
-                    domProps: { checked: _vm._q(_vm.form.type, "feature") },
-                    on: {
-                      change: function($event) {
-                        return _vm.$set(_vm.form, "type", "feature")
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "feature" } }, [
-                    _vm._v("Feature")
-                  ])
-                ])
+                _c("select")
               ])
             ]
           )
@@ -414,12 +378,22 @@ var __vue_render__ = function() {
         _c("div", { staticClass: "modal-footer" }, [
           _c(
             "button",
-            {
-              staticClass: "modal-default-button",
-              attrs: { type: "submit" },
-              on: { click: _vm.submit }
-            },
-            [_vm._v("\n          Submit\n        ")]
+            { attrs: { type: "submit" }, on: { click: _vm.submit } },
+            [
+              _vm._v(
+                "\n         " + _vm._s(_vm.$t("common: cancel")) + "\n        "
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            { attrs: { type: "submit" }, on: { click: _vm.submit } },
+            [
+              _vm._v(
+                "\n         " + _vm._s(_vm.$t("common: save")) + "\n        "
+              )
+            ]
           )
         ])
       ])
@@ -432,11 +406,11 @@ __vue_render__._withStripped = true;
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-0c057cab_0", { source: "\n.modal-mask[data-v-0c057cab] {\r\n  position: fixed;\r\n  z-index: 9998;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  background-color: rgba(0, 0, 0, 0.5);\r\n  display: table;\r\n  transition: opacity 0.3s ease;\n}\n.modal-wrapper[data-v-0c057cab] {\r\n  display: table-cell;\r\n  vertical-align: middle;\n}\n.modal-container[data-v-0c057cab] {\r\n  width: 400px;\r\n  margin: 0px auto;\r\n  padding: 20px 30px;\r\n  background-color: #fff;\r\n  border-radius: 2px;\r\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\r\n  transition: all 0.3s ease;\r\n  font-family: Helvetica, Arial, sans-serif;\n}\n.modal-header[data-v-0c057cab] {\r\n  display: flex;\r\n  justify-content: space-between;\n}\n.modal-body[data-v-0c057cab] {\r\n  margin: 20px 0;\n}\n.modal-footer[data-v-0c057cab] {\r\n  padding: 10px 0;\n}\n.modal-default-button[data-v-0c057cab] {\r\n  float: right;\n}\r\n\r\n/*\r\n * The following styles are auto-applied to elements with\r\n * transition=\"modal\" when their visibility is toggled\r\n * by Vue.js.\r\n *\r\n * You can easily play with the modal transition by editing\r\n * these styles.\r\n */\n.modal-enter[data-v-0c057cab] {\r\n  opacity: 0;\n}\n.modal-leave-active[data-v-0c057cab] {\r\n  opacity: 0;\n}\n.modal-enter .modal-container[data-v-0c057cab],\r\n.modal-leave-active .modal-container[data-v-0c057cab] {\r\n  -webkit-transform: scale(1.1);\r\n  transform: scale(1.1);\n}\n.form-group[data-v-0c057cab] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  margin-bottom: 10px;\n}\n.input[data-v-0c057cab]{\r\n  border-radius: 5px;\r\n  background: #fff;\r\n  border: 1px solid #ccc;\r\n  outline:none;\r\n  padding: 6px;\n}\n.input[data-v-0c057cab]:focus{\r\n  border:1px solid #56b4ef;\r\n  box-shadow: 0px 0px 3px 1px #c8def0;\n}\n.checkbox-input[data-v-0c057cab] {\r\n  flex-direction: row;\n}\n.radio-input[data-v-0c057cab] {\r\n  display: flex;\n}\n.textarea[data-v-0c057cab] {\r\n  min-height: 100px;\r\n  resize: vertical;\n}\n.close[data-v-0c057cab] {\r\n  cursor: pointer;\n}\r\n\r\n", map: {"version":3,"sources":["C:\\Users\\ermin\\Code\\energyManager\\screenCapture\\src\\ScreenCaptureModal.vue"],"names":[],"mappings":";AA4EA;EACA,eAAA;EACA,aAAA;EACA,MAAA;EACA,OAAA;EACA,WAAA;EACA,YAAA;EACA,oCAAA;EACA,cAAA;EACA,6BAAA;AACA;AAEA;EACA,mBAAA;EACA,sBAAA;AACA;AAEA;EACA,YAAA;EACA,gBAAA;EACA,kBAAA;EACA,sBAAA;EACA,kBAAA;EACA,yCAAA;EACA,yBAAA;EACA,yCAAA;AACA;AAEA;EACA,aAAA;EACA,8BAAA;AACA;AAEA;EACA,cAAA;AACA;AAEA;EACA,eAAA;AACA;AAEA;EACA,YAAA;AAEA;;AAEA;;;;;;;EAOA;AAEA;EACA,UAAA;AACA;AAEA;EACA,UAAA;AACA;AAEA;;EAEA,6BAAA;EACA,qBAAA;AACA;AAEA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;AACA;AAEA;EACA,kBAAA;EACA,gBAAA;EACA,sBAAA;EACA,YAAA;EACA,YAAA;AACA;AAEA;EACA,wBAAA;EACA,mCAAA;AACA;AAEA;EACA,mBAAA;AACA;AAEA;EACA,aAAA;AACA;AAEA;EACA,iBAAA;EACA,gBAAA;AACA;AAEA;EACA,eAAA;AACA","file":"ScreenCaptureModal.vue","sourcesContent":["<template>\r\n  <div class=\"modal-mask\">\r\n    <div class=\"modal-wrapper\">\r\n      <div class=\"modal-container\">\r\n        <div class=\"modal-header\">\r\n            <h3>\r\n              Please enter screen comment\r\n            </h3>\r\n            <div class=\"close\" @click=\"$emit('close')\">\r\n              <strong>x</strong>\r\n            </div>\r\n        </div>\r\n        <div class=\"modal-body\">\r\n          <form v-on:submit.prevent=\"submit()\">\r\n            <div class=\"form-group\">\r\n              <label for=\"title\">Title</label>\r\n              <input id=\"title\" class=\"input\" type=\"text\" v-model=\"form.title\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <label for=\"description\">Description</label>\r\n              <textarea class=\"textarea input\"  id=\"description\" v-model=\"form.description\" placeholder=\"Description\"></textarea>\r\n            </div>\r\n            <div class=\"form-group checkbox-input\">\r\n              <label for=\"private\">Private</label>\r\n              <input id=\"private\" type=\"checkbox\" v-model=\"form.private\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <label>Type</label>\r\n              <div class=\"radio-input\">\r\n                <input type=\"radio\" id=\"bug\" value=\"bug\" v-model=\"form.type\">\r\n                <label for=\"bug\">Bug</label>\r\n              </div>\r\n              <div class=\"radio-input\">\r\n                <input type=\"radio\" id=\"feature\" value=\"feature\" v-model=\"form.type\">\r\n                <label for=\"feature\">Feature</label>\r\n              </div>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"modal-footer\">\r\n          <button type=\"submit\" @click=\"submit\" class=\"modal-default-button\">\r\n            Submit\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nexport default {\r\n  data() {\r\n    return {\r\n      form: {\r\n        title: null,\r\n        description: null,\r\n        private: false,\r\n        type: 'bug'\r\n      }\r\n    }\r\n  },\r\n  methods: {\r\n    submit() {\r\n      let data = {\r\n        title: this.form.title,\r\n        description: this.form.description,\r\n        private: this.form.private,\r\n        type: this.form.type\r\n      }\r\n      this.$emit('submited', data)\r\n    }\r\n  }\r\n}\r\n</script>\r\n\r\n<style scoped>\r\n.modal-mask {\r\n  position: fixed;\r\n  z-index: 9998;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  background-color: rgba(0, 0, 0, 0.5);\r\n  display: table;\r\n  transition: opacity 0.3s ease;\r\n}\r\n\r\n.modal-wrapper {\r\n  display: table-cell;\r\n  vertical-align: middle;\r\n}\r\n\r\n.modal-container {\r\n  width: 400px;\r\n  margin: 0px auto;\r\n  padding: 20px 30px;\r\n  background-color: #fff;\r\n  border-radius: 2px;\r\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\r\n  transition: all 0.3s ease;\r\n  font-family: Helvetica, Arial, sans-serif;\r\n}\r\n\r\n.modal-header {\r\n  display: flex;\r\n  justify-content: space-between;\r\n}\r\n\r\n.modal-body {\r\n  margin: 20px 0;\r\n}\r\n\r\n.modal-footer {\r\n  padding: 10px 0;\r\n}\r\n\r\n.modal-default-button {\r\n  float: right;\r\n\r\n}\r\n\r\n/*\r\n * The following styles are auto-applied to elements with\r\n * transition=\"modal\" when their visibility is toggled\r\n * by Vue.js.\r\n *\r\n * You can easily play with the modal transition by editing\r\n * these styles.\r\n */\r\n\r\n.modal-enter {\r\n  opacity: 0;\r\n}\r\n\r\n.modal-leave-active {\r\n  opacity: 0;\r\n}\r\n\r\n.modal-enter .modal-container,\r\n.modal-leave-active .modal-container {\r\n  -webkit-transform: scale(1.1);\r\n  transform: scale(1.1);\r\n}\r\n\r\n.form-group {\r\n  display: flex;\r\n  flex-direction: column;\r\n  margin-bottom: 10px;\r\n}\r\n\r\n.input{\r\n  border-radius: 5px;\r\n  background: #fff;\r\n  border: 1px solid #ccc;\r\n  outline:none;\r\n  padding: 6px;\r\n}\r\n\r\n.input:focus{\r\n  border:1px solid #56b4ef;\r\n  box-shadow: 0px 0px 3px 1px #c8def0;\r\n}\r\n\r\n.checkbox-input {\r\n  flex-direction: row;\r\n}\r\n\r\n.radio-input {\r\n  display: flex;\r\n}\r\n\r\n.textarea {\r\n  min-height: 100px;\r\n  resize: vertical;\r\n}\r\n\r\n.close {\r\n  cursor: pointer;\r\n}\r\n\r\n</style>\r\n"]}, media: undefined });
+    inject("data-v-8c5cf3c8_0", { source: "\n.modal-mask[data-v-8c5cf3c8] {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: table;\n  transition: opacity 0.3s ease;\n}\n.modal-wrapper[data-v-8c5cf3c8] {\n  display: table-cell;\n  vertical-align: middle;\n}\n.modal-container[data-v-8c5cf3c8] {\n  width: 500px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n  transition: all 0.3s ease;\n  font-family: Helvetica, Arial, sans-serif;\n}\n.modal-header[data-v-8c5cf3c8] {\n  display: flex;\n  justify-content: space-between;\n}\n.modal-body[data-v-8c5cf3c8] {\n  margin: 20px 0;\n}\n.modal-footer[data-v-8c5cf3c8] {\n  padding: 10px 0;\n}\n\n\n\n/*\n * The following styles are auto-applied to elements with\n * transition=\"modal\" when their visibility is toggled\n * by Vue.js.\n *\n * You can easily play with the modal transition by editing\n * these styles.\n */\n.modal-enter[data-v-8c5cf3c8] {\n  opacity: 0;\n}\n.modal-leave-active[data-v-8c5cf3c8] {\n  opacity: 0;\n}\n.modal-enter .modal-container[data-v-8c5cf3c8],\n.modal-leave-active .modal-container[data-v-8c5cf3c8] {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n.textarea[data-v-8c5cf3c8] {\n  min-height: 100px;\n  resize: vertical;\n}\n.close[data-v-8c5cf3c8] {\n  cursor: pointer;\n}\n\n", map: {"version":3,"sources":["/Users/dinahajric/Projects/scrcapt/src/ScreenCaptureModal.vue"],"names":[],"mappings":";AAuFA;EACA,eAAA;EACA,aAAA;EACA,MAAA;EACA,OAAA;EACA,WAAA;EACA,YAAA;EACA,oCAAA;EACA,cAAA;EACA,6BAAA;AACA;AAEA;EACA,mBAAA;EACA,sBAAA;AACA;AAEA;EACA,YAAA;EACA,gBAAA;EACA,kBAAA;EACA,sBAAA;EACA,kBAAA;EACA,yCAAA;EACA,yBAAA;EACA,yCAAA;AACA;AAEA;EACA,aAAA;EACA,8BAAA;AACA;AAEA;EACA,cAAA;AACA;AAEA;EACA,eAAA;AACA;;;;AAIA;;;;;;;EAOA;AAEA;EACA,UAAA;AACA;AAEA;EACA,UAAA;AACA;AAEA;;EAEA,6BAAA;EACA,qBAAA;AACA;AAEA;EACA,iBAAA;EACA,gBAAA;AACA;AAEA;EACA,eAAA;AACA","file":"ScreenCaptureModal.vue","sourcesContent":["<template>\n  <div class=\"modal-mask\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container\">\n        <div class=\"modal-header\">\n            <h3>\n              {{$t('backlog: addBacklogItem')}}\n            </h3>\n            <div class=\"close\" @click=\"$emit('close')\">\n              <strong>x</strong>\n            </div>\n        </div>\n        <div class=\"modal-body\">\n          <form v-on:submit.prevent=\"submit()\">\n            <div class=\"form-group\">\n              <label for=\"title\">{{$t('common: title')}}</label>\n              <input id=\"title\" class=\"input\" type=\"text\" v-model=\"form.title\">\n            </div>\n            <div class=\"form-group\">\n              <label for=\"description\">{{$t('common: description')}}</label>\n              <!--textarea class=\"textarea input\"  id=\"description\" v-model=\"form.description\" placeholder=\"Description\"></textarea-->\n              <froala :tag=\"'textarea'\" :config=\"config\" v-model=\"form.description\">Init text</froala>\n            </div>\n            <div class=\"form-group checkbox-input\">\n              <label for=\"private\">{{$t('backlog: isPublic')}}</label>\n              <input id=\"private\" type=\"checkbox\" v-model=\"form.private\">\n            </div>\n            <div class=\"form-group\">\n              <label>{{$t('common: type')}}</label>\n              <select\n              ></select>\n            </div>\n          </form>\n        </div>\n        <div class=\"modal-footer\">\n           <button type=\"submit\" @click=\"submit\">\n           {{$t('common: cancel')}}\n          </button>\n          <button type=\"submit\" @click=\"submit\">\n           {{$t('common: save')}}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\n\nimport VueFroala from 'vue-froala-wysiwyg'\nimport i18n from './locale/i18n';\n\nexport default {\n  data() {\n    return {\n      form: {\n        title: null,\n        description: null,\n        private: false,\n        type: 1, \n        backlogTypes: [],\n        config: {\n         placeholderText: 'Edit Your Content Here!',\n        charCounterCount: false\n}\n      }\n    }\n  },\n  methods: {\n    submit() {\n      let data = {\n        title: this.form.title,\n        description: this.form.description,\n        private: this.form.private,\n        type: this.form.type\n      }\n      this.$emit('submited', data)\n    }\n  },\n\n  components: {\n    VueFroala,\n  }\n}\n</script>\n\n<style scoped>\n.modal-mask {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: table;\n  transition: opacity 0.3s ease;\n}\n\n.modal-wrapper {\n  display: table-cell;\n  vertical-align: middle;\n}\n\n.modal-container {\n  width: 500px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n  transition: all 0.3s ease;\n  font-family: Helvetica, Arial, sans-serif;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n}\n\n.modal-body {\n  margin: 20px 0;\n}\n\n.modal-footer {\n  padding: 10px 0;\n}\n\n\n\n/*\n * The following styles are auto-applied to elements with\n * transition=\"modal\" when their visibility is toggled\n * by Vue.js.\n *\n * You can easily play with the modal transition by editing\n * these styles.\n */\n\n.modal-enter {\n  opacity: 0;\n}\n\n.modal-leave-active {\n  opacity: 0;\n}\n\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n\n.textarea {\n  min-height: 100px;\n  resize: vertical;\n}\n\n.close {\n  cursor: pointer;\n}\n\n</style>\n"]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-0c057cab";
+  const __vue_scope_id__ = "data-v-8c5cf3c8";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
