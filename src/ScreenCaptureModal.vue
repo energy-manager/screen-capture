@@ -62,20 +62,45 @@ export default {
         config: {
          placeholderText: 'Edit Your Content Here!',
         charCounterCount: false
-}
-      }
+},
+ screenshot: null,
+      },
+      
     }
   },
+
+  mixins: [canvasScreenshot],
+  created() {
+    this.takeScreenshot();
+  },
+
+ props: {
+    captureElementId: {
+      type: String,
+      default: 'app'
+    }
+  },
+
   methods: {
     submit() {
       let data = {
         title: this.form.title,
         description: this.form.description,
         private: this.form.private,
-        type: this.form.type
+        type: this.form.type,
+        screenshot: this.form.screenshot,
       }
-      this.$emit('submited', data)
-    }
+      this.$emit('submit', data)
+      this.$emit('close');
+    },
+
+     async takeScreenshot() {
+      const el = document.getElementById(this.captureElementId);
+      const options = {
+        type: 'dataURL'
+      };
+      this.screenshot = await this.$html2canvas(el, options);
+    },
   },
 
   components: {
@@ -125,8 +150,6 @@ export default {
 .modal-footer {
   padding: 10px 0;
 }
-
-
 
 /*
  * The following styles are auto-applied to elements with
