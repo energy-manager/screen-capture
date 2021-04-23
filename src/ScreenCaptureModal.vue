@@ -4,7 +4,7 @@
       <div class="modal-container">
         <div class="modal-header">
             <h3>
-              Please enter screen comment
+              {{$t('backlog: addBacklogItem')}}
             </h3>
             <div class="close" @click="$emit('close')">
               <strong>x</strong>
@@ -13,33 +13,31 @@
         <div class="modal-body">
           <form v-on:submit.prevent="submit()">
             <div class="form-group">
-              <label for="title">Title</label>
+              <label for="title">{{$t('common: title')}}</label>
               <input id="title" class="input" type="text" v-model="form.title">
             </div>
             <div class="form-group">
-              <label for="description">Description</label>
-              <textarea class="textarea input"  id="description" v-model="form.description" placeholder="Description"></textarea>
+              <label for="description">{{$t('common: description')}}</label>
+              <!--textarea class="textarea input"  id="description" v-model="form.description" placeholder="Description"></textarea-->
+              <froala :tag="'textarea'" :config="config" v-model="form.description">Init text</froala>
             </div>
             <div class="form-group checkbox-input">
-              <label for="private">Private</label>
+              <label for="private">{{$t('backlog: isPublic')}}</label>
               <input id="private" type="checkbox" v-model="form.private">
             </div>
             <div class="form-group">
-              <label>Type</label>
-              <div class="radio-input">
-                <input type="radio" id="bug" value="bug" v-model="form.type">
-                <label for="bug">Bug</label>
-              </div>
-              <div class="radio-input">
-                <input type="radio" id="feature" value="feature" v-model="form.type">
-                <label for="feature">Feature</label>
-              </div>
+              <label>{{$t('common: type')}}</label>
+              <select
+              ></select>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" @click="submit" class="modal-default-button">
-            Submit
+           <button type="submit" @click="submit">
+           {{$t('common: cancel')}}
+          </button>
+          <button type="submit" @click="submit">
+           {{$t('common: save')}}
           </button>
         </div>
       </div>
@@ -48,6 +46,10 @@
 </template>
 
 <script>
+
+import VueFroala from 'vue-froala-wysiwyg'
+import i18n from './locale/i18n';
+
 export default {
   data() {
     return {
@@ -55,7 +57,12 @@ export default {
         title: null,
         description: null,
         private: false,
-        type: 'bug'
+        type: 1, 
+        backlogTypes: [],
+        config: {
+         placeholderText: 'Edit Your Content Here!',
+        charCounterCount: false
+}
       }
     }
   },
@@ -69,6 +76,10 @@ export default {
       }
       this.$emit('submited', data)
     }
+  },
+
+  components: {
+    VueFroala,
   }
 }
 </script>
@@ -92,7 +103,7 @@ export default {
 }
 
 .modal-container {
-  width: 400px;
+  width: 500px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -115,10 +126,7 @@ export default {
   padding: 10px 0;
 }
 
-.modal-default-button {
-  float: right;
 
-}
 
 /*
  * The following styles are auto-applied to elements with
@@ -141,33 +149,6 @@ export default {
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-
-.input{
-  border-radius: 5px;
-  background: #fff;
-  border: 1px solid #ccc;
-  outline:none;
-  padding: 6px;
-}
-
-.input:focus{
-  border:1px solid #56b4ef;
-  box-shadow: 0px 0px 3px 1px #c8def0;
-}
-
-.checkbox-input {
-  flex-direction: row;
-}
-
-.radio-input {
-  display: flex;
 }
 
 .textarea {
