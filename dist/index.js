@@ -39,7 +39,7 @@ i18next
     }
   });
 
-new VueI18Next(i18next);
+var i18n = new VueI18Next(i18next);
 
 var canvasScreenshot = {
     methods: {
@@ -67,16 +67,18 @@ var script = {
         private: false,
         type: 1, 
         backlogTypes: [],
-        config: {
+        screenshot: null,
+      },
+
+      config: {
          placeholderText: 'Edit Your Content Here!',
         charCounterCount: false
 },
-         screenshot: null,
-      },
       
     }
   },
 
+  i18n,
   mixins: [canvasScreenshot],
   created() {
     this.takeScreenshot();
@@ -292,7 +294,7 @@ var __vue_render__ = function() {
             [
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { attrs: { for: "title" } }, [
-                  _vm._v(_vm._s(_vm.$t("common: title")))
+                  _vm._v(_vm._s(_vm.$i18n.t("common: title")))
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -323,7 +325,7 @@ var __vue_render__ = function() {
                 { staticClass: "form-group" },
                 [
                   _c("label", { attrs: { for: "description" } }, [
-                    _vm._v(_vm._s(_vm.$t("common: description")))
+                    _vm._v(_vm._s(_vm.$i18n.t("common: description")))
                   ]),
                   _vm._v(" "),
                   _c(
@@ -346,7 +348,7 @@ var __vue_render__ = function() {
               _vm._v(" "),
               _c("div", { staticClass: "form-group checkbox-input" }, [
                 _c("label", { attrs: { for: "private" } }, [
-                  _vm._v(_vm._s(_vm.$t("backlog: isPublic")))
+                  _vm._v(_vm._s(_vm.$i18n.t("backlog: isPublic")))
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -403,7 +405,11 @@ var __vue_render__ = function() {
         _c("div", { staticClass: "modal-footer" }, [
           _c(
             "button",
-            { attrs: { type: "submit" }, on: { click: _vm.submit } },
+            {
+              staticClass: "btn btn-default",
+              attrs: { type: "submit" },
+              on: { click: _vm.submit }
+            },
             [
               _vm._v(
                 "\n         " + _vm._s(_vm.$t("common: cancel")) + "\n        "
@@ -413,7 +419,11 @@ var __vue_render__ = function() {
           _vm._v(" "),
           _c(
             "button",
-            { attrs: { type: "submit" }, on: { click: _vm.submit } },
+            {
+              staticClass: "btn btn-default",
+              attrs: { type: "submit" },
+              on: { click: _vm.submit }
+            },
             [
               _vm._v(
                 "\n         " + _vm._s(_vm.$t("common: save")) + "\n        "
@@ -431,11 +441,11 @@ __vue_render__._withStripped = true;
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-3756ea1a_0", { source: "\n.modal-mask[data-v-3756ea1a] {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: table;\n  transition: opacity 0.3s ease;\n}\n.modal-wrapper[data-v-3756ea1a] {\n  display: table-cell;\n  vertical-align: middle;\n}\n.modal-container[data-v-3756ea1a] {\n  width: 500px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n  transition: all 0.3s ease;\n  font-family: Helvetica, Arial, sans-serif;\n}\n.modal-header[data-v-3756ea1a] {\n  display: flex;\n  justify-content: space-between;\n}\n.modal-body[data-v-3756ea1a] {\n  margin: 20px 0;\n}\n.modal-footer[data-v-3756ea1a] {\n  padding: 10px 0;\n}\n\n/*\n * The following styles are auto-applied to elements with\n * transition=\"modal\" when their visibility is toggled\n * by Vue.js.\n *\n * You can easily play with the modal transition by editing\n * these styles.\n */\n.modal-enter[data-v-3756ea1a] {\n  opacity: 0;\n}\n.modal-leave-active[data-v-3756ea1a] {\n  opacity: 0;\n}\n.modal-enter .modal-container[data-v-3756ea1a],\n.modal-leave-active .modal-container[data-v-3756ea1a] {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n.textarea[data-v-3756ea1a] {\n  min-height: 100px;\n  resize: vertical;\n}\n.close[data-v-3756ea1a] {\n  cursor: pointer;\n}\n\n", map: {"version":3,"sources":["/Users/dinahajric/Projects/scrcapt/src/ScreenCaptureModal.vue"],"names":[],"mappings":";AAiHA;EACA,eAAA;EACA,aAAA;EACA,MAAA;EACA,OAAA;EACA,WAAA;EACA,YAAA;EACA,oCAAA;EACA,cAAA;EACA,6BAAA;AACA;AAEA;EACA,mBAAA;EACA,sBAAA;AACA;AAEA;EACA,YAAA;EACA,gBAAA;EACA,kBAAA;EACA,sBAAA;EACA,kBAAA;EACA,yCAAA;EACA,yBAAA;EACA,yCAAA;AACA;AAEA;EACA,aAAA;EACA,8BAAA;AACA;AAEA;EACA,cAAA;AACA;AAEA;EACA,eAAA;AACA;;AAEA;;;;;;;EAOA;AAEA;EACA,UAAA;AACA;AAEA;EACA,UAAA;AACA;AAEA;;EAEA,6BAAA;EACA,qBAAA;AACA;AAEA;EACA,iBAAA;EACA,gBAAA;AACA;AAEA;EACA,eAAA;AACA","file":"ScreenCaptureModal.vue","sourcesContent":["<template>\n  <div class=\"modal-mask\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container\">\n        <div class=\"modal-header\">\n            <h3>\n              {{$t('backlog: addBacklogItem')}}\n            </h3>\n            <div class=\"close\" @click=\"$emit('close')\">\n              <strong>x</strong>\n            </div>\n        </div>\n        <div class=\"modal-body\">\n          <form v-on:submit.prevent=\"submit()\">\n            <div class=\"form-group\">\n              <label for=\"title\">{{$t('common: title')}}</label>\n              <input id=\"title\" class=\"input\" type=\"text\" v-model=\"form.title\">\n            </div>\n            <div class=\"form-group\">\n              <label for=\"description\">{{$t('common: description')}}</label>\n              <!--textarea class=\"textarea input\"  id=\"description\" v-model=\"form.description\" placeholder=\"Description\"></textarea-->\n              <froala :tag=\"'textarea'\" :config=\"config\" v-model=\"form.description\">Init text</froala>\n            </div>\n            <div class=\"form-group checkbox-input\">\n              <label for=\"private\">{{$t('backlog: isPublic')}}</label>\n              <input id=\"private\" type=\"checkbox\" v-model=\"form.private\">\n            </div>\n            <div class=\"form-group\">\n              <label>{{$t('common: type')}}</label>\n              <select\n              ></select>\n            </div>\n          </form>\n        </div>\n        <div class=\"modal-footer\">\n           <button type=\"submit\" @click=\"submit\">\n           {{$t('common: cancel')}}\n          </button>\n          <button type=\"submit\" @click=\"submit\">\n           {{$t('common: save')}}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\n\nimport VueFroala from 'vue-froala-wysiwyg'\nimport i18n from './locale/i18n';\nimport canvasScreenshot  from './canvasScreenshot.js';\n\nexport default {\n  data() {\n    return {\n      form: {\n        title: null,\n        description: null,\n        private: false,\n        type: 1, \n        backlogTypes: [],\n        config: {\n         placeholderText: 'Edit Your Content Here!',\n        charCounterCount: false\n},\n         screenshot: null,\n      },\n      \n    }\n  },\n\n  mixins: [canvasScreenshot],\n  created() {\n    this.takeScreenshot();\n  },\n\n props: {\n    captureElementId: {\n      type: String,\n      default: 'app'\n    }\n  },\n\n  methods: {\n    submit() {\n      let data = {\n        title: this.form.title,\n        description: this.form.description,\n        private: this.form.private,\n        type: this.form.type,\n        screenshot: this.form.screenshot,\n      }\n      this.$emit('submit', data)\n      this.$emit('close');\n    },\n\n     async takeScreenshot() {\n      const el = document.getElementById(this.captureElementId);\n      const options = {\n        type: 'dataURL'\n      };\n      this.screenshot = await this.$html2canvas(el, options);\n    },\n  },\n\n  components: {\n    VueFroala,\n  }\n}\n</script>\n\n<style scoped>\n.modal-mask {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: table;\n  transition: opacity 0.3s ease;\n}\n\n.modal-wrapper {\n  display: table-cell;\n  vertical-align: middle;\n}\n\n.modal-container {\n  width: 500px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n  transition: all 0.3s ease;\n  font-family: Helvetica, Arial, sans-serif;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n}\n\n.modal-body {\n  margin: 20px 0;\n}\n\n.modal-footer {\n  padding: 10px 0;\n}\n\n/*\n * The following styles are auto-applied to elements with\n * transition=\"modal\" when their visibility is toggled\n * by Vue.js.\n *\n * You can easily play with the modal transition by editing\n * these styles.\n */\n\n.modal-enter {\n  opacity: 0;\n}\n\n.modal-leave-active {\n  opacity: 0;\n}\n\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n\n.textarea {\n  min-height: 100px;\n  resize: vertical;\n}\n\n.close {\n  cursor: pointer;\n}\n\n</style>\n"]}, media: undefined });
+    inject("data-v-8cc19a76_0", { source: "\n.modal-mask[data-v-8cc19a76] {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: table;\n  transition: opacity 0.3s ease;\n}\n.modal-wrapper[data-v-8cc19a76] {\n  display: table-cell;\n  vertical-align: middle;\n}\n.modal-container[data-v-8cc19a76] {\n  width: 500px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n  transition: all 0.3s ease;\n  font-family: Helvetica, Arial, sans-serif;\n}\n.modal-header[data-v-8cc19a76] {\n  display: flex;\n  justify-content: space-between;\n}\n.modal-body[data-v-8cc19a76] {\n  margin: 20px 0;\n}\n.modal-footer[data-v-8cc19a76] {\n  padding: 10px 0;\n}\n\n/*\n * The following styles are auto-applied to elements with\n * transition=\"modal\" when their visibility is toggled\n * by Vue.js.\n *\n * You can easily play with the modal transition by editing\n * these styles.\n */\n.modal-enter[data-v-8cc19a76] {\n  opacity: 0;\n}\n.modal-leave-active[data-v-8cc19a76] {\n  opacity: 0;\n}\n.modal-enter .modal-container[data-v-8cc19a76],\n.modal-leave-active .modal-container[data-v-8cc19a76] {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n.textarea[data-v-8cc19a76] {\n  min-height: 100px;\n  resize: vertical;\n}\n.close[data-v-8cc19a76] {\n  cursor: pointer;\n}\n\n", map: {"version":3,"sources":["/Users/dinahajric/Projects/scrcapt/src/ScreenCaptureModal.vue"],"names":[],"mappings":";AAmHA;EACA,eAAA;EACA,aAAA;EACA,MAAA;EACA,OAAA;EACA,WAAA;EACA,YAAA;EACA,oCAAA;EACA,cAAA;EACA,6BAAA;AACA;AAEA;EACA,mBAAA;EACA,sBAAA;AACA;AAEA;EACA,YAAA;EACA,gBAAA;EACA,kBAAA;EACA,sBAAA;EACA,kBAAA;EACA,yCAAA;EACA,yBAAA;EACA,yCAAA;AACA;AAEA;EACA,aAAA;EACA,8BAAA;AACA;AAEA;EACA,cAAA;AACA;AAEA;EACA,eAAA;AACA;;AAEA;;;;;;;EAOA;AAEA;EACA,UAAA;AACA;AAEA;EACA,UAAA;AACA;AAEA;;EAEA,6BAAA;EACA,qBAAA;AACA;AAEA;EACA,iBAAA;EACA,gBAAA;AACA;AAEA;EACA,eAAA;AACA","file":"ScreenCaptureModal.vue","sourcesContent":["<template>\n  <div class=\"modal-mask\">\n    <div class=\"modal-wrapper\">\n      <div class=\"modal-container\">\n        <div class=\"modal-header\">\n            <h3>\n              {{$t('backlog: addBacklogItem')}}\n            </h3>\n            <div class=\"close\" @click=\"$emit('close')\">\n              <strong>x</strong>\n            </div>\n        </div>\n        <div class=\"modal-body\">\n          <form v-on:submit.prevent=\"submit()\">\n            <div class=\"form-group\">\n              <label for=\"title\">{{ $i18n.t('common: title')}}</label>\n              <input id=\"title\" class=\"input\" type=\"text\" v-model=\"form.title\">\n            </div>\n            <div class=\"form-group\">\n              <label for=\"description\">{{ $i18n.t('common: description')}}</label>\n              <!--textarea class=\"textarea input\"  id=\"description\" v-model=\"form.description\" placeholder=\"Description\"></textarea-->\n              <froala :tag=\"'textarea'\" :config=\"config\" v-model=\"form.description\">Init text</froala>\n            </div>\n            <div class=\"form-group checkbox-input\">\n              <label for=\"private\">{{ $i18n.t('backlog: isPublic')}}</label>\n              <input id=\"private\" type=\"checkbox\" v-model=\"form.private\">\n            </div>\n            <div class=\"form-group\">\n              <label>{{$t('common: type')}}</label>\n              <select\n              ></select>\n            </div>\n          </form>\n        </div>\n        <div class=\"modal-footer\">\n           <button type=\"submit\" @click=\"submit\" class=\"btn btn-default\">\n           {{$t('common: cancel')}}\n          </button>\n          <button type=\"submit\" @click=\"submit\" class=\"btn btn-default\">\n           {{$t('common: save')}}\n          </button>\n        </div>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\n\nimport VueFroala from 'vue-froala-wysiwyg'\nimport i18n from './locale/i18n';\nimport canvasScreenshot  from './canvasScreenshot.js';\n\nexport default {\n  data() {\n    return {\n      form: {\n        title: null,\n        description: null,\n        private: false,\n        type: 1, \n        backlogTypes: [],\n        screenshot: null,\n      },\n\n      config: {\n         placeholderText: 'Edit Your Content Here!',\n        charCounterCount: false\n},\n      \n    }\n  },\n\n  i18n,\n  mixins: [canvasScreenshot],\n  created() {\n    this.takeScreenshot();\n  },\n\n props: {\n    captureElementId: {\n      type: String,\n      default: 'app'\n    }\n  },\n\n  methods: {\n    submit() {\n      let data = {\n        title: this.form.title,\n        description: this.form.description,\n        private: this.form.private,\n        type: this.form.type,\n        screenshot: this.form.screenshot,\n      }\n      this.$emit('submit', data)\n      this.$emit('close');\n    },\n\n     async takeScreenshot() {\n      const el = document.getElementById(this.captureElementId);\n      const options = {\n        type: 'dataURL'\n      };\n      this.screenshot = await this.$html2canvas(el, options);\n    },\n  },\n\n  components: {\n    VueFroala,\n  }\n}\n</script>\n\n<style scoped>\n.modal-mask {\n  position: fixed;\n  z-index: 9998;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: table;\n  transition: opacity 0.3s ease;\n}\n\n.modal-wrapper {\n  display: table-cell;\n  vertical-align: middle;\n}\n\n.modal-container {\n  width: 500px;\n  margin: 0px auto;\n  padding: 20px 30px;\n  background-color: #fff;\n  border-radius: 2px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);\n  transition: all 0.3s ease;\n  font-family: Helvetica, Arial, sans-serif;\n}\n\n.modal-header {\n  display: flex;\n  justify-content: space-between;\n}\n\n.modal-body {\n  margin: 20px 0;\n}\n\n.modal-footer {\n  padding: 10px 0;\n}\n\n/*\n * The following styles are auto-applied to elements with\n * transition=\"modal\" when their visibility is toggled\n * by Vue.js.\n *\n * You can easily play with the modal transition by editing\n * these styles.\n */\n\n.modal-enter {\n  opacity: 0;\n}\n\n.modal-leave-active {\n  opacity: 0;\n}\n\n.modal-enter .modal-container,\n.modal-leave-active .modal-container {\n  -webkit-transform: scale(1.1);\n  transform: scale(1.1);\n}\n\n.textarea {\n  min-height: 100px;\n  resize: vertical;\n}\n\n.close {\n  cursor: pointer;\n}\n\n</style>\n"]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-3756ea1a";
+  const __vue_scope_id__ = "data-v-8cc19a76";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */

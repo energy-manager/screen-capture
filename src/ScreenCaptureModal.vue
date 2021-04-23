@@ -13,16 +13,16 @@
         <div class="modal-body">
           <form v-on:submit.prevent="submit()">
             <div class="form-group">
-              <label for="title">{{$t('common: title')}}</label>
+              <label for="title">{{ $i18n.t('common: title')}}</label>
               <input id="title" class="input" type="text" v-model="form.title">
             </div>
             <div class="form-group">
-              <label for="description">{{$t('common: description')}}</label>
+              <label for="description">{{ $i18n.t('common: description')}}</label>
               <!--textarea class="textarea input"  id="description" v-model="form.description" placeholder="Description"></textarea-->
               <froala :tag="'textarea'" :config="config" v-model="form.description">Init text</froala>
             </div>
             <div class="form-group checkbox-input">
-              <label for="private">{{$t('backlog: isPublic')}}</label>
+              <label for="private">{{ $i18n.t('backlog: isPublic')}}</label>
               <input id="private" type="checkbox" v-model="form.private">
             </div>
             <div class="form-group">
@@ -33,10 +33,10 @@
           </form>
         </div>
         <div class="modal-footer">
-           <button type="submit" @click="submit">
+           <button type="submit" @click="submit" class="btn btn-default">
            {{$t('common: cancel')}}
           </button>
-          <button type="submit" @click="submit">
+          <button type="submit" @click="submit" class="btn btn-default">
            {{$t('common: save')}}
           </button>
         </div>
@@ -60,16 +60,18 @@ export default {
         private: false,
         type: 1, 
         backlogTypes: [],
-        config: {
+        screenshot: null,
+      },
+
+      config: {
          placeholderText: 'Edit Your Content Here!',
         charCounterCount: false
 },
-         screenshot: null,
-      },
       
     }
   },
 
+  i18n,
   mixins: [canvasScreenshot],
   created() {
     this.takeScreenshot();
