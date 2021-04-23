@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "energy-manager-screen-capture",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "Screen capture tool",
   "main": "./dist/index.js",
   "scripts": {

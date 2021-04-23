@@ -49,6 +49,7 @@
 
 import VueFroala from 'vue-froala-wysiwyg'
 import i18n from './locale/i18n';
+import canvasScreenshot  from './canvasScreenshot.js';
 
 export default {
   data() {
@@ -63,7 +64,7 @@ export default {
          placeholderText: 'Edit Your Content Here!',
         charCounterCount: false
 },
- screenshot: null,
+         screenshot: null,
       },
       
     }
